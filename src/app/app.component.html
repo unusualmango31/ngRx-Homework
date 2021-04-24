@@ -30,23 +30,26 @@
 
         <td>
           <div class="rateSelect">
-            Показать студентов с успеваемостью выше:
             <select #selectRate (change)="filterStudents('averageRate', selectRate.value)">
-              <option value="0">0</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
+              <option hidden [selected]="isResetRate"> Успеваемость </option>
+              <option value="0">Выше 0</option>
+              <option value="2">Выше 2</option>
+              <option value="3">Выше 3</option>
+              <option value="4">Выше 4</option>
             </select>
+            <button (click)="resetStudents()">Сброс</button>
           </div>
         </td>
         <td>
-          <div class="birthdaySelect">Показать студентов с выбранным годом рождения:
+          <div class="birthdaySelect">
             <select #selectBirthday (change)="filterStudents('birthday', selectBirthday.value)">
+              <option hidden [selected]="isResetBirthday"> Год рождения </option>
               <option value="1997">1997</option>
               <option value="1998">1998</option>
               <option value="1999">1999</option>
               <option value="2000">2000</option>
             </select>
+            <button (click)="resetStudents()">Сброс</button>
           </div>
         </td>
         <td colspan="3">
