@@ -1,0 +1,97 @@
+<div class="form-wrap" [style.display]="formDisplay">
+  <div class="form-container">
+    <div class="form-container-header">
+      {{ formType }}
+    </div>
+    <div class="form-content">
+      <form class="app-form" [formGroup]="form" (ngSubmit)="submit()">
+        ФИО:
+        <div class="fullName" formGroupName="fullName">
+          <div class="form-control">
+            <label>Фамилия:</label>
+            <br>
+            <input type="text" placeholder="Фамилия" formControlName="surName">
+            <div
+              *ngIf="form.get('fullName').get('surName').invalid && form.get('fullName').get('surName').touched"
+              class="validation">
+              <small *ngIf="form.get('fullName').get('surName').errors.required">
+                Поле "Фамилия" не может быть пустым.
+              </small>
+              <small *ngIf="form.get('fullName').get('surName').errors.minlength">
+                Поле "Фамилия" не должно быть короче {{ form.get('fullName').get('surName').errors.minlength.requiredLength }} символов.
+              </small>
+              <small *ngIf="form.get('fullName').get('surName').errors.pattern">
+                Поле "Фамилия" может содержать только буквы кириллицы.
+              </small>
+            </div>
+          </div>
+
+          <div class="form-control">
+            <label>Имя:</label>
+            <br>
+            <input type="text" placeholder="Имя" formControlName="name">
+            <div class="validation"
+                 *ngIf="form.get('fullName').get('name').invalid && form.get('fullName').get('name').touched">
+              <small *ngIf="form.get('fullName').get('name').errors.required">
+                Поле "Имя" не может быть пустым.
+              </small>
+              <small *ngIf="form.get('fullName').get('name').errors.minlength">
+                Поле "Имя" не должно быть короче {{ form.get('fullName').get('name').errors.minlength.requiredLength }} символов.
+              </small>
+              <small *ngIf="form.get('fullName').get('name').errors.pattern">
+                Поле "Имя" может содержать только буквы кириллицы.
+              </small>
+            </div>
+          </div>
+
+          <div class="form-control">
+            <label>Отчество:</label>
+            <br>
+            <input type="text" placeholder="Отчество" formControlName="middleName">
+            <div class="validation"
+                 *ngIf="form.get('fullName').get('middleName').invalid && form.get('fullName').get('middleName').touched">
+              <small *ngIf="form.get('fullName').get('middleName').errors.minlength">
+                Поле "Отчество" не должно быть короче {{ form.get('fullName').get('middleName').errors.minlength.requiredLength }} символов.
+              </small>
+              <small *ngIf="form.get('fullName').get('middleName').errors.pattern">
+                Поле "Отчество" может содержать только буквы кириллицы.
+              </small>
+            </div>
+          </div>
+        </div>
+        <div class="validation" *ngIf="form.get('fullName').invalid && form.get('fullName').touched && form.get('fullName').errors">
+          <small *ngIf="form.get('fullName').errors.fullName">
+            Имя не должно совпадать с отчеством или фамилией.
+          </small>
+        </div>
+
+        <div class="form-control">
+          <label>Дата Рождения:</label>
+          <br>
+          <input type="date" formControlName="birthday">
+          <div class="validation" *ngIf="form.get('birthday').invalid && form.get('birthday').touched">
+            <small *ngIf="form.get('birthday').errors.yearMore">
+              Дата не может быть больше, чем текущая минус 10 лет.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-control">
+          <label>Средний балл:</label>
+          <br>
+          <input type="number" step="0.1" placeholder="Средний балл" formControlName="averageRate">
+          <div class="validation" *ngIf="form.get('averageRate').invalid && form.get('averageRate').touched">
+            <small *ngIf="form.get('averageRate').errors.rate">
+              Средний бал не может быть меньше 0 и больше 5.
+            </small>
+          </div>
+        </div>
+
+        <button class="submitButton" type="submit" (click)="submit()">Подтвердить</button>
+        <button class="cancelButton" (click)="cancel()" type="reset">Отменить</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+

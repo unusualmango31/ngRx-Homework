@@ -1,6 +1,16 @@
 import { Component } from "@angular/core";
-import { element } from "protractor";
 import * as studentsJSON from "./students.json";
+import {DateOperations} from './date-operations';
+
+export interface StudentsArgs {
+  id: number;
+  surName: string;
+  name: string;
+  middleName: string;
+  birthday: string;
+  averageRate: number;
+}
+
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -10,8 +20,11 @@ export class AppComponent {
   title: string = "Angular-homework";
   students: Array<StudentsArgs> = studentsJSON.students;
   filteredStudents: Array<StudentsArgs> = this.students;
+  selectedStudent: StudentsArgs;
   nameForSearch: string = "";
   popupDisplay: string = "none";
+  formDisplay: string = "none";
+  formType: string;
   isShowBadRate: boolean = true;
   isResetRate: boolean = false;
   isResetBirthday: boolean = false;
@@ -84,6 +97,49 @@ export class AppComponent {
     this.filteredStudents.splice(this.studentId, 1);
     this.showPopup(-1);
   }
+  editStudent(student: StudentsArgs): void {
+    this.selectedStudent = student;
+    this.formType = "Редактирование";
+    this.formDisplay = "block";
+  }
+  createNewStudent(): void {
+    this.selectedStudent = {
+      id: -1,
+      surName: "",
+      name: "",
+      middleName: "",
+      birthday: DateOperations.transformToCorrectDate(DateOperations.getStringCurrentDate()),
+      averageRate: 0
+    };
+    console.log(this.selectedStudent);
+    this.formType = "Создание";
+    this.formDisplay = "block";
+  }
+  addStudent(student: StudentsArgs): void {
+    let maxId = 0;
+    this.filteredStudents.forEach( (i) => {
+      if (maxId <= i.id) {
+        maxId = i.id;
+      }
+    });
+    student.id = maxId + 1;
+    console.log(student.id);
+    this.filteredStudents.push(student);
+    this.formDisplay = "none";
+  }
+  updateStudent(editedStudent: StudentsArgs): void {
+    for (const student of this.filteredStudents) {
+      if (student.id === editedStudent.id) {
+        student.surName = editedStudent.surName;
+        student.name = editedStudent.name;
+        student.middleName = editedStudent.middleName;
+        student.birthday = editedStudent.birthday;
+        student.averageRate = editedStudent.averageRate;
+        console.log(student);
+      }
+    }
+    this.formDisplay = "none";
+  }
   private toggleElement( toggledElement: boolean): boolean {
     if (toggledElement) {
       return false;
@@ -91,19 +147,12 @@ export class AppComponent {
     return true;
   }
   private convertToDate(dateStr: string): Date {
-    const day = Number(dateStr.slice(0, 2)),
-          month = Number(dateStr.slice(3, 5)),
-          year = Number(dateStr.slice(6, 10));
+    const dd = Number(dateStr.slice(0, 2)),
+          mm = Number(dateStr.slice(3, 5)),
+          yyyy = Number(dateStr.slice(6, 10));
 
-    return new Date(year, month, day);
+    return new Date(yyyy, mm, dd);
   }
 }
 
-interface StudentsArgs {
-  id: number;
-  surName: string;
-  name: string;
-  middleName: string;
-  birthday: string;
-  averageRate: number;
-}
+

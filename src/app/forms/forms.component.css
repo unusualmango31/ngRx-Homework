@@ -1,0 +1,79 @@
+.form-wrap {
+  display: block;
+  left: 0;
+  top: 0;
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.6);
+  z-index:100;
+}
+
+.form-container {
+  top: 15px;
+  left: 50%;
+  margin-left:-350px;
+  position: fixed;
+  height: 680px;
+  width: 650px;
+  border-radius: 4px;
+  box-shadow: -10px 10px 10px rgba(0,0,0,0.2);
+  background: whitesmoke;
+  z-index:1;
+}
+.form-content {
+  width: 80%;
+  margin: 0 auto;
+}
+.form-control {
+  padding: 10px;
+  margin: 0 auto;
+}
+.form-control input {
+  height: 1.5em;
+  width: 100%;
+  margin-top: 4px;
+  border-radius: 5px;
+  border: 2px solid steelblue;
+}
+input.ng-invalid.ng-touched {
+  border: 2px solid crimson;
+}
+input.ng-valid.ng-touched {
+  border: 2px solid green;
+}
+
+.validation {
+  color: crimson;
+}
+.form-container-header {
+  height: 1em;
+  font-size: 20px;
+  font-weight: 700;
+  color: FloralWhite;
+  text-transform: uppercase;
+  border-radius: 4px 4px 0 0;
+  padding: 20px 0;
+  background: steelblue;
+  text-align: center;
+}
+.app-form {
+  padding-top: 20px;
+}
+
+.fullName {
+  border: LightGrey 1px solid;
+  padding: 10px;
+  border-radius: 10px;
+}
+.fullName.ng-invalid.ng-touched {
+  border: 2px solid crimson;
+}
+.app-form button {
+  display: inline-block;
+  margin: 10px 0px 0px 10px;
+}
+.app-form.ng-invalid .submitButton {
+  background: lightgray;
+  border: lightgray;
+}

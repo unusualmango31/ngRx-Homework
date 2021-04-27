@@ -1,7 +1,7 @@
 {
   "students": [
     {
-      "id": 1,
+      "id": 0,
       "surName": "Казаков",
       "name": "Антон",
       "middleName": "Алексеевич",
@@ -9,7 +9,7 @@
       "averageRate": 4.5
     },
     {
-      "id": 2,
+      "id": 1,
       "surName": "Горшкова",
       "name": "Алина",
       "middleName": "",
@@ -17,7 +17,7 @@
       "averageRate": 4.1
     },
     {
-      "id": 3,
+      "id": 2,
       "surName": "Чернышёв",
       "name": "Владимир",
       "middleName": "",
@@ -25,7 +25,7 @@
       "averageRate": 2.4
     },
     {
-      "id": 4,
+      "id": 3,
       "surName": "Большаков",
       "name": "Никита",
       "middleName": "Игоревич",
@@ -33,7 +33,7 @@
       "averageRate": 3
     },
     {
-      "id": 5,
+      "id": 4,
       "surName": "Карташев",
       "name": "Максим",
       "middleName": "Сергеевич",
@@ -41,7 +41,7 @@
       "averageRate": 4.7
     },
     {
-      "id": 6,
+      "id": 5,
       "surName": "Коновалов",
       "name": "Сергей",
       "middleName": "Андреевич",
@@ -49,12 +49,12 @@
       "averageRate": 2.9
     },
     {
-    "id": 5,
-    "surName": "Большаков",
-    "name": "Антон",
-    "middleName": "Игоревич",
-    "birthday": "11.03.2000",
-    "averageRate": 3.5
+      "id": 6,
+      "surName": "Большаков",
+      "name": "Антон",
+      "middleName": "Игоревич",
+      "birthday": "11.03.2000",
+      "averageRate": 3.5
     }
   ]
 }

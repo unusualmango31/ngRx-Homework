@@ -18,6 +18,7 @@
 </div>
 
 <div class="container">
+  <button class="addButton" (click)="createNewStudent()">Добавить студента</button>
   <table>
     <thead>
       <tr class="actions">
@@ -37,7 +38,7 @@
               <option value="3">Выше 3</option>
               <option value="4">Выше 4</option>
             </select>
-            <button (click)="resetStudents()">Сброс</button>
+            <button class="resetButton" (click)="resetStudents()">Сброс</button>
           </div>
         </td>
         <td>
@@ -49,7 +50,7 @@
               <option value="1999">1999</option>
               <option value="2000">2000</option>
             </select>
-            <button (click)="resetStudents()">Сброс</button>
+            <button class="resetButton" (click)="resetStudents()">Сброс</button>
           </div>
         </td>
         <td colspan="3">
@@ -79,10 +80,16 @@
         <td>{{ student.averageRate }}</td>
         <td>
           <button class="deleteButton" (click)="showPopup(i)">Удалить</button>
-          <!--      <input type="button" (click)="filteredStudents.splice(i,1)">-->
+          <button class="editButton" (click)="editStudent(student)">Редактировать</button>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
-
+<app-forms [student]="selectedStudent"
+           [formDisplay]="formDisplay"
+           [formType]="formType"
+           (onAdd)="addStudent($event)"
+           (onEdit)="updateStudent($event)"
+           (onCancel)="formDisplay = $event">
+</app-forms>

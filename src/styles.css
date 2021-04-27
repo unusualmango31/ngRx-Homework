@@ -2,3 +2,20 @@
 * {
   font-family: sans-serif;
 }
+
+button {
+  border-radius: 4px;
+  height: 3em;
+  width: 6rem;
+  outline: none;
+  background: CornflowerBlue;
+  color: FloralWhite;
+  font-size: 9px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.cancelButton {
+  border: SteelBlue solid 2px;
+  background: FloralWhite;
+  color: black;
+}
