@@ -1,12 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 * {
-  font-family: sans-serif;
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
 button {
+  padding: 10px;
   border-radius: 4px;
-  height: 3em;
-  width: 6rem;
   outline: none;
   background: CornflowerBlue;
   color: FloralWhite;

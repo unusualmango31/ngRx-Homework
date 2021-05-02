@@ -1,17 +1,16 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { DateOperations } from "../date-operations";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
 import { StudentsArgs } from "../app.component";
-import { CustomFormValidators } from "./form.validators";
-
-
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { DateOperations } from "../date-operations";
+import { CustomFormValidators } from "./students-forms.validators";
 
 @Component({
-  selector: "app-forms",
-  templateUrl: "./forms.component.html",
-  styleUrls: ["./forms.component.css"]
+  selector: "app-students-forms",
+  templateUrl: "./students-forms.component.html",
+  styleUrls: ["./students-forms.component.css"],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FormsComponent implements OnInit, OnChanges {
+export class StudentsFormsComponent implements OnInit, OnChanges {
   @Output() onAdd: EventEmitter<StudentsArgs> = new EventEmitter<StudentsArgs>();
   @Output() onEdit: EventEmitter<StudentsArgs> = new EventEmitter<StudentsArgs>();
   @Output() onCancel: EventEmitter<string> = new EventEmitter<string>();
@@ -58,7 +57,7 @@ export class FormsComponent implements OnInit, OnChanges {
   submit(): void {
     if (this.form.valid) {
       const value = this.form.value,
-            correctBirthday = DateOperations.transformToCorrectDate(value.birthday);
+        correctBirthday = DateOperations.transformToCorrectDate(value.birthday);
       const student: StudentsArgs = {
         id: this.student.id,
         surName: value.fullName.surName,

@@ -4,6 +4,7 @@
   max-width: 95%;
 }
 .popup {
+  padding-bottom: 15px;
   top: 10%;
   left: 50%;
   margin-left:-200px;
@@ -40,8 +41,6 @@
 .popup-buttons button {
   margin-left: 10px;
   border-radius: 4px;
-  height: 3em;
-  width: 7em;
   outline: none;
   font-size: 10px;
   text-transform: uppercase;
@@ -61,7 +60,7 @@
 
 
 table {
-  width: 90%;
+  width: 98%;
   margin: 0 auto;
   cellspacing: 10px;
   border-spacing: 0;
@@ -73,6 +72,7 @@ tr {
   text-align: center;
   font-size: 14px;
   height: 3em;
+  background: white;
 }
 tr:nth-child(2n+1){
   background: WhiteSmoke;
@@ -112,13 +112,58 @@ button.resetButton {
   color: floralwhite;
 }
 button.editButton {
+  margin-left: 15px;
+  font-size: 11px;
   color: black;
   background:rgba(0,0,0,0);
   border: cornflowerblue 2px solid;
+}
+button.deleteButton {
+  font-size: 11px;
+}
+
+button.cancelButton {
+  border: SteelBlue solid 2px;
+  background: FloralWhite;
+  color: black;
 }
 button.addButton {
+  font-size: 12px;
+  font-weight: 900;
   margin-left: 5%;
+  margin-bottom: 10px;
   color: black;
   background:rgba(0,0,0,0);
-  border: cornflowerblue 2px solid;
+  border: cornflowerblue 3px solid;
 }
+.marker {
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  font-size: 30px;
+  font-weight: 900;
+  color: rgba(0, 0, 0, 0);
+}
+
+.buttonsForSelect {
+  margin-top: 10px;
+  margin-left: 11px;
+  display: flex;
+  justify-content: flex-start;
+}
+.buttonsForSelect button {
+  padding: 10px;
+  margin-left: 15px;
+  font-size: 15px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.cancelSelect {
+  border: SteelBlue solid 2px;
+  background: FloralWhite;
+  color: black;
+}
+

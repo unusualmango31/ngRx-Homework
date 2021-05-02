@@ -8,23 +8,31 @@
       Удаление
     </div>
     <div class="popup-message">
-      Вы действительно хотите удалить?
+      {{popupText}}
     </div>
     <div class="popup-buttons">
-      <button class="deleteButton" (click)="deleteStudent()">Удалить</button>
-      <button class="cancelButton" (click)="showPopup(-1)">Отмена</button>
+      <button *ngIf="popupType !=='error'" appSelectedButton class="deleteButton" (click)="deleteStudent()">Удалить</button>
+      <button appSelectedButton class="cancelButton" (click)="showPopup(-1, 'cancel')">Отмена</button>
     </div>
   </div>
 </div>
 
 <div class="container">
-  <button class="addButton" (click)="createNewStudent()">Добавить студента</button>
+  <button appSelectedButton class="addButton" (click)="createNewStudent()">Добавить студента</button>
   <table>
+    <col width="5%">
+    <col width="17%">
+    <col width="17%">
+    <col width="17%">
+    <col width="17%">
+    <col width="10%">
+    <col width="17%">
     <thead>
       <tr class="actions">
+        <td></td>
         <td>
           <div class="rateCheckbox">
-            Показать студентов с низкой успеваемостью:
+            Низкая успеваемость:
             <input type="checkbox" [(ngModel)]="isShowBadRate">
           </div>
         </td>
@@ -38,19 +46,18 @@
               <option value="3">Выше 3</option>
               <option value="4">Выше 4</option>
             </select>
-            <button class="resetButton" (click)="resetStudents()">Сброс</button>
+            <button appSelectedButton class="resetButton" (click)="resetStudents()">Сброс</button>
           </div>
         </td>
         <td>
           <div class="birthdaySelect">
             <select #selectBirthday (change)="filterStudents('birthday', selectBirthday.value)">
               <option hidden [selected]="isResetBirthday"> Год рождения </option>
-              <option value="1997">1997</option>
-              <option value="1998">1998</option>
-              <option value="1999">1999</option>
-              <option value="2000">2000</option>
+              <option *ngFor="let student of students | dateDontRepeat"  [value]="student.birthday | slice: 6: 10">
+                {{ student.birthday | slice: 6: 10 }}
+              </option>
             </select>
-            <button class="resetButton" (click)="resetStudents()">Сброс</button>
+            <button appSelectedButton class="resetButton" (click)="resetStudents()">Сброс</button>
           </div>
         </td>
         <td colspan="3">
@@ -61,6 +68,7 @@
 
       </tr>
       <tr class="columnNames">
+        <td></td>
         <td (click)="sortElement('surName')">Фамилия</td>
         <td (click)="sortElement('name')" >Имя</td>
         <td (click)="sortElement('middleName')" >Отчество</td>
@@ -70,26 +78,40 @@
       </tr>
     </thead>
     <tbody>
-      <tr [style.color]="checkRate(student.averageRate)"
+      <tr appSelected
+            [selectStud]="student"
+            (onDoubleClick)="editStudent($event)"
+          appSelectForDelete
+            [studentForDelete]="student"
+            [needToDelete]="isNeedToSelect"
+            (onClickStudent)="addToSelectedStudentID($event)"
+
+          [style.color]="checkRate(student.averageRate)"
           [style.color]="find(student.name, student.surName)"
-          *ngFor="let student of filteredStudents; let i = index">
+          *ngFor="let student of filteredStudents | filter: nameForSearch; let i = index">
+        <td class="marker">&#8226;</td>
         <td>{{ student.surName }}</td>
         <td>{{ student.name }}</td>
         <td>{{ student.middleName }}</td>
         <td>{{ student.birthday }}</td>
-        <td>{{ student.averageRate }}</td>
+        <td>{{ student.averageRate | number:"1.1-2" }}</td>
         <td>
-          <button class="deleteButton" (click)="showPopup(i)">Удалить</button>
-          <button class="editButton" (click)="editStudent(student)">Редактировать</button>
+          <button appSelectedButton class="deleteButton" (click)="showPopup(i, 'once')">Удалить</button>
+          <button appSelectedButton class="editButton" (click)="editStudent(student)">Изменить</button>
         </td>
       </tr>
     </tbody>
   </table>
+  <div class="buttonsForSelect">
+    <button appSelectedButton class="selectButton" *ngIf="!isNeedToSelect" (click)="isNeedToSelect = true;">Выбрать</button>
+    <button appSelectedButton class="deleteStudentsButton" *ngIf="isNeedToSelect" (click)="showPopup(-1, 'many')"> Удалить выбранных студентов</button>
+    <button appSelectedButton class="cancelSelect" *ngIf="isNeedToSelect" (click)="clear()"> Отменить</button>
+  </div>
 </div>
-<app-forms [student]="selectedStudent"
+<app-students-forms [student]="selectedStudent"
            [formDisplay]="formDisplay"
            [formType]="formType"
            (onAdd)="addStudent($event)"
            (onEdit)="updateStudent($event)"
            (onCancel)="formDisplay = $event">
-</app-forms>
+</app-students-forms>

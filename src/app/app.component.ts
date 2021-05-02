@@ -1,6 +1,6 @@
-import { Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { DateOperations } from "./date-operations";
 import * as studentsJSON from "./students.json";
-import {DateOperations} from './date-operations';
 
 export interface StudentsArgs {
   id: number;
@@ -14,23 +14,29 @@ export interface StudentsArgs {
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"]
+  styleUrls: ["./app.component.css"],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
-  title: string = "Angular-homework";
+  popupType: string;
+  popupText: string;
   students: Array<StudentsArgs> = studentsJSON.students;
+  selectedIDs: Array<number> = [];
   filteredStudents: Array<StudentsArgs> = this.students;
   selectedStudent: StudentsArgs;
   nameForSearch: string = "";
   popupDisplay: string = "none";
   formDisplay: string = "none";
   formType: string;
+  deleteType: string;
+  isNeedToSelect: boolean = false;
   isShowBadRate: boolean = true;
   isResetRate: boolean = false;
   isResetBirthday: boolean = false;
   private studentId: number;
   private isModalVisable: boolean = false;
   private isReverseSort: boolean = false;
+
 
   sortElement(sortedElementName: string): void {
     this.isReverseSort = this.toggleElement(this.isReverseSort);
@@ -87,15 +93,51 @@ export class AppComponent {
       return "green";
     }
   }
-  showPopup(id: number): void {
-    this.studentId = id;
+  showPopup(id: number, type: string): void {
+    if (type === "once") {
+      this.popupText = "Удалить выбранного студента?";
+      this.popupType = "once";
+      this.deleteType = type;
+      this.studentId = id;
+    }
+    if (type === "many" && this.selectedIDs.length !== 0) {
+      this.popupText = "Удалить выбранных студентов?";
+      this.popupType = "many";
+      this.deleteType = type;
+    }
+    if (type === "many" && this.selectedIDs.length === 0) {
+      this.popupType = "error";
+      this.popupText = "Сначала выберите студентов для удаления";
+    }
+    if ( type === "cancel" ) {
+      this.selectedIDs = [];
+      this.isNeedToSelect = false;
+      this.studentId = -1;
+    }
     this.isModalVisable = this.toggleElement(this.isModalVisable);
     (!this.isModalVisable) ? this.popupDisplay = "none" : this.popupDisplay = "block";
   }
 
   deleteStudent(): void {
-    this.filteredStudents.splice(this.studentId, 1);
-    this.showPopup(-1);
+    if (this.deleteType === "once") {
+      this.filteredStudents.splice(this.studentId, 1);
+      this.selectedIDs = [];
+      this.isNeedToSelect = false;
+    }
+    if (this.deleteType === "many") {
+      for (const student of this.filteredStudents) {
+        for (const id of this.selectedIDs) {
+          if (student.id === id) {
+            this.filteredStudents = this.filteredStudents.filter( (element) => {
+              return element.id !== id;
+            });
+          }
+        }
+      }
+      this.selectedIDs = [];
+      this.isNeedToSelect = false;
+    }
+    this.showPopup(-1, "");
   }
   editStudent(student: StudentsArgs): void {
     this.selectedStudent = student;
@@ -139,6 +181,17 @@ export class AppComponent {
       }
     }
     this.formDisplay = "none";
+  }
+  addToSelectedStudentID(id: number): void {
+    if (!this.selectedIDs.includes(id)) {
+      this.selectedIDs.push(id);
+    }
+
+    console.log(this.selectedIDs);
+  }
+  clear(): void {
+    this.isNeedToSelect = false;
+    this.selectedIDs = [];
   }
   private toggleElement( toggledElement: boolean): boolean {
     if (toggledElement) {
