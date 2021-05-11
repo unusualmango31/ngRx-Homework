@@ -5,7 +5,7 @@ export class DateOperations {
       mm = String(today.getMonth() + 1).padStart(2, "0"),
       yyyy = today.getFullYear();
 
-    return  yyyy + "-" + mm + "-" + dd;
+    return  dd + "." + mm + "." + yyyy;
   }
   static dateToString(date: Date): string {
     const dd = String(date.getDate()).padStart(2, "0"),

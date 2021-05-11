@@ -1,5 +1,6 @@
 import { Directive, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output, Renderer2 } from "@angular/core";
-import { StudentsArgs } from "../app.component";
+import { StudentsArgs } from "../services/student.service";
+
 
 @Directive({
   selector: "[appSelected]"

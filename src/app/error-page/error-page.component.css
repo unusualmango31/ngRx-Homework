@@ -1,0 +1,29 @@
+.container {
+  width: 50%;
+  margin: 0 auto;
+}
+.header {
+  border-radius: 30px;
+  color: floralwhite;
+  text-align: center;
+  width: 70%;
+  margin: 120px auto;
+  background: rgb(70,130,180);
+  background: linear-gradient(90deg, rgba(70,130,180,1) 48%, rgba(158,188,213,1) 100%);
+  padding: 10px 10px 10px 0;
+}
+.header span {
+  font-size: 20px;
+  display: block;
+  margin-bottom: 20px;
+}
+.header h2 {
+  font-size: 70px;
+}
+.link {
+  text-align: center;
+  margin: 0 auto;
+}
+.link a {
+  font-size: 30px;
+}

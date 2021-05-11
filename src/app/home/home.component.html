@@ -1,0 +1,117 @@
+<h1>Angular HomeWork</h1>
+<h2>Anton Kazakov</h2>
+<hr>
+
+<div class="popup-wrapper" [style.display]="popupDisplay">
+  <div class="popup">
+    <div class="popup-header">
+      Удаление
+    </div>
+    <div class="popup-message">
+      {{popupText}}
+    </div>
+    <div class="popup-buttons">
+      <button *ngIf="popupType !=='error'" appSelectedButton class="deleteButton" (click)="deleteStudent()">Удалить</button>
+      <button appSelectedButton class="cancelButton" (click)="showPopup(-1, 'cancel')">Отмена</button>
+    </div>
+  </div>
+</div>
+<div *ngIf="!isLoading; else loadingBlock">
+  <div class="container">
+    <button appSelectedButton (click)="createNewStudent()" class="addButton">Добавить студента</button>
+    <table>
+      <col width="5%">
+      <col width="17%">
+      <col width="17%">
+      <col width="17%">
+      <col width="17%">
+      <col width="10%">
+      <col width="17%">
+      <thead>
+      <tr class="actions">
+        <td></td>
+        <td>
+          <div class="rateCheckbox">
+            Низкая успеваемость:
+            <input type="checkbox" [(ngModel)]="isShowBadRate">
+          </div>
+        </td>
+
+        <td>
+          <div class="rateSelect">
+            <select #selectRate (change)="filterStudents('averageRate', selectRate.value)">
+              <option hidden [selected]="isResetRate"> Успеваемость </option>
+              <option value="0">Выше 0</option>
+              <option value="2">Выше 2</option>
+              <option value="3">Выше 3</option>
+              <option value="4">Выше 4</option>
+            </select>
+            <button appSelectedButton class="resetButton" (click)="resetStudents()">Сброс</button>
+          </div>
+        </td>
+        <td>
+          <div class="birthdaySelect">
+            <select #selectBirthday (change)="filterStudents('birthday', selectBirthday.value)">
+              <option hidden [selected]="isResetBirthday"> Год рождения </option>
+              <option *ngFor="let student of students | dateDontRepeat"  [value]="student.birthday | slice: 6: 10">
+                {{ student.birthday | slice: 6: 10 }}
+              </option>
+            </select>
+            <button appSelectedButton class="resetButton" (click)="resetStudents()">Сброс</button>
+          </div>
+        </td>
+        <td colspan="3">
+          <div class="search">Поиск(имя или фамилия)
+            <input type="text" [(ngModel)]="nameForSearch">
+          </div>
+        </td>
+
+      </tr>
+      <tr class="columnNames">
+        <td></td>
+        <td (click)="sortElement('surName')">Фамилия</td>
+        <td (click)="sortElement('name')" >Имя</td>
+        <td (click)="sortElement('middleName')" >Отчество</td>
+        <td (click)="sortElement('birthday')" >Дата рождения</td>
+        <td (click)="sortElement('averageRate')"> Средний балл </td>
+        <td>Действие</td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr appSelected
+          [selectStud]="student"
+          (onDoubleClick)="editStudent(student.id)"
+          appSelectForDelete
+          [studentForDelete]="student"
+          [needToDelete]="isNeedToSelect"
+          (onClickStudent)="addToSelectedStudentID($event)"
+
+          [style.color]="checkRate(student.averageRate)"
+          [style.color]="find(student.name, student.surName)"
+          *ngFor="let student of filteredStudents | filter: nameForSearch; let i = index">
+        <td class="marker">&#8226;</td>
+        <td>{{ student.surName }}</td>
+        <td>{{ student.name }}</td>
+        <td>{{ student.middleName }}</td>
+        <td>{{ student.birthday }}</td>
+        <td>{{ student.averageRate | number:"1.1-2" }}</td>
+        <td>
+          <button appSelectedButton class="deleteButton" (click)="showPopup(i, 'once')">Удалить</button>
+          <button appSelectedButton class="editButton" (click)="editStudent(student.id)">Изменить</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="buttonsForSelect">
+      <button appSelectedButton class="selectButton" *ngIf="!isNeedToSelect" (click)="isNeedToSelect = true;">Выбрать</button>
+      <button appSelectedButton class="deleteStudentsButton" *ngIf="isNeedToSelect" (click)="showPopup(-1, 'many')"> Удалить выбранных студентов</button>
+      <button appSelectedButton class="cancelSelect" *ngIf="isNeedToSelect" (click)="clear()"> Отменить</button>
+    </div>
+  </div>
+</div>
+<ng-template #loadingBlock>
+  <p>
+    loading...
+  </p>
+</ng-template>
+<router-outlet></router-outlet>

@@ -1,4 +1,4 @@
-<div class="form-wrap" [style.display]="formDisplay">
+<div class="form-wrap" >
   <div class="form-container">
     <div class="form-container-header">
       {{ formType }}
@@ -87,7 +87,7 @@
           </div>
         </div>
 
-        <button class="submitButton" type="submit" (click)="submit()">Подтвердить</button>
+        <button class="submitButton" type="button" (click)="submit()">Подтвердить</button>
         <button class="cancelButton" (click)="cancel()" type="reset">Отменить</button>
       </form>
     </div>

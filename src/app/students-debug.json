@@ -1,0 +1,60 @@
+{
+  "students": [
+    {
+      "id": 0,
+      "surName": "Казаков",
+      "name": "Антон",
+      "middleName": "Алексеевич [Debug]",
+      "birthday": "28.05.1998",
+      "averageRate": 4.5
+    },
+    {
+      "id": 1,
+      "surName": "Горшкова",
+      "name": "Алина",
+      "middleName": "[Debug]",
+      "birthday": "23.09.1999",
+      "averageRate": 4.1
+    },
+    {
+      "id": 2,
+      "surName": "Чернышёв",
+      "name": "Владимир",
+      "middleName": "[Debug]",
+      "birthday": "25.09.1999",
+      "averageRate": 2.4
+    },
+    {
+      "id": 3,
+      "surName": "Большаков",
+      "name": "Никита",
+      "middleName": "Игоревич [Debug]",
+      "birthday": "25.05.1998",
+      "averageRate": 3
+    },
+    {
+      "id": 4,
+      "surName": "Карташев",
+      "name": "Максим",
+      "middleName": "Сергеевич [Debug]",
+      "birthday": "07.01.1998",
+      "averageRate": 4.7
+    },
+    {
+      "id": 5,
+      "surName": "Коновалов",
+      "name": "Сергей",
+      "middleName": "Андреевич [Debug]",
+      "birthday": "13.02.1997",
+      "averageRate": 2.9
+    },
+    {
+      "id": 6,
+      "surName": "Большаков",
+      "name": "Антон",
+      "middleName": "Игоревич [Debug]",
+      "birthday": "11.03.2000",
+      "averageRate": 3.5
+    }
+  ]
+}
