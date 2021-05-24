@@ -1,13 +1,13 @@
 import { Directive, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output, Renderer2 } from "@angular/core";
-import { StudentsArgs } from "../services/student.service";
+import { Student } from "../models/student";
 
 
 @Directive({
   selector: "[appSelected]"
 })
 export class SelectedDirective {
-  @Input() selectStud: StudentsArgs;
-  @Output() onDoubleClick: EventEmitter<StudentsArgs> = new EventEmitter<StudentsArgs>();
+  @Input() selectStud: Student;
+  @Output() onDoubleClick: EventEmitter<Student> = new EventEmitter<Student>();
   constructor(private el: ElementRef, private r: Renderer2) {
   }
   @HostBinding("style.outline") elOutline = null;

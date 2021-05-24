@@ -2,10 +2,9 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnI
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DateOperations } from "../date-operations";
-import { StudentsArgs, StudentService } from "../services/student.service";
+import { StudentService } from "../services/student.service";
 import { CustomFormValidators } from "./students-forms.validators";
-import {Observable, of} from 'rxjs';
-import {mergeAll, switchAll} from 'rxjs/operators';
+import { Student} from "../models/student";
 
 @Component({
   selector: "app-students-forms",
@@ -14,10 +13,10 @@ import {mergeAll, switchAll} from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StudentsFormsComponent implements OnInit, OnChanges {
-  @Output() onAdd: EventEmitter<StudentsArgs> = new EventEmitter<StudentsArgs>();
-  @Output() onEdit: EventEmitter<StudentsArgs> = new EventEmitter<StudentsArgs>();
-  @Input() student: StudentsArgs;
-  students: StudentsArgs[];
+  @Output() onAdd: EventEmitter<Student> = new EventEmitter<Student>();
+  @Output() onEdit: EventEmitter<Student> = new EventEmitter<Student>();
+  student: Student;
+  students: Student[];
   formType: string;
   form: FormGroup;
   constructor(private router: Router, private activatedRoute: ActivatedRoute,  private studentService: StudentService) {
@@ -33,18 +32,21 @@ export class StudentsFormsComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe( (params) => {
-      this.student = this.studentService.getById(+params.id);
-    });
-    this.studentService.students.subscribe( (students) => {
+    this.studentService.getStudentsFromStore$().subscribe( (students) => {
       this.students = students;
     });
+
     this.activatedRoute.url.subscribe( (url) => {
       if (url[1].path === "add") {
         this.formType = "Добавление";
       }
       if (url[1].path === "edit") {
         this.formType = "Редактирование";
+        this.activatedRoute.params.subscribe( (params) => {
+          this.studentService.selectStudentById(params["id"]).subscribe( student => {
+            this.student = student;
+          });
+        });
       }
     });
     this.formInit();
@@ -74,34 +76,30 @@ export class StudentsFormsComponent implements OnInit, OnChanges {
     if (this.form.valid) {
       const value = this.form.value,
       correctBirthday = DateOperations.transformToCorrectDate(value.birthday);
-      const student: StudentsArgs = {
-      id: this.student.id,
-      surName: value.fullName.surName,
-      name: value.fullName.name,
-      middleName: value.fullName.middleName,
-      birthday: correctBirthday,
-      averageRate: value.averageRate
+      const student: Student = {
+        id: this.student.id,
+        surName: value.fullName.surName,
+        name: value.fullName.name,
+        middleName: value.fullName.middleName,
+        birthday: correctBirthday,
+        averageRate: value.averageRate
       };
     if (this.formType === "Редактирование") {
-      for (const stud of this.studentService.staticStudents) {
-        if (stud.id === student.id) {
-          stud.surName = student.surName;
-          stud.name = student.name;
-          stud.middleName = student.middleName;
-          stud.birthday = student.birthday;
-          stud.averageRate = student.averageRate;
-        }
-      }
+      this.studentService.updateStudent(student);
     } else if (this.formType === "Добавление") {
       let maxId = 0;
-      this.students.forEach( (i) => {
-        if (maxId <= i.id) {
-          maxId = i.id;
-        }
-      });
-      student.id = maxId + 1;
-      this.studentService.staticStudents.push(student);
-      console.log(this.students);
+      if (this.students.length === 0) {
+        student.id = 0;
+      } else {
+        this.students.forEach( (i) => {
+          if (maxId <= i.id) {
+            maxId = i.id;
+          }
+        });
+        student.id = maxId + 1;
+      }
+
+      this.studentService.addStudent(student);
     }
     this.form.reset();
     this.router.navigate(["/"]);

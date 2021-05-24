@@ -84,9 +84,6 @@ thead tr.actions {
   font-weight: 500;
   height: 6em;
 }
-thead tr.columnNames td:hover{
-  cursor: pointer;
-}
 
 thead tr {
   text-transform: uppercase;

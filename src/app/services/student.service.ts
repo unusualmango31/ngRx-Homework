@@ -1,35 +1,35 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
+import { Student } from "../models/student";
+import {AddNewStudent, DeleteStudent, EditStudent, SelectStudent} from '../store/actions/students.actions';
+import { AppState, selectStudentById, selectStudents } from "../store/state/app.state";
 
-export interface StudentsArgs {
-  id: number;
-  surName: string;
-  name: string;
-  middleName: string;
-  birthday: string;
-  averageRate: number;
-}
 
 @Injectable()
 export class StudentService {
-  students: Observable<StudentsArgs[]>;
-  staticStudents: StudentsArgs[];
-  constructor (public http: HttpClient) {
+  staticStudents: Student[];
+  constructor (public http: HttpClient, private store$: Store<AppState>) {
   }
 
-  fetchData(): Observable<StudentsArgs[]> {
-    return this.http.get<StudentsArgs[]>("http://localhost:3000/api");
+  fetchData(): Observable<Student[]> {
+    return this.http.get<Student[]>("http://localhost:3000/api");
   }
-  updateData(students: StudentsArgs[]): void {
-    this.staticStudents = students;
+  getStudentsFromStore$(): Observable<Student[]> {
+    return this.store$.select(selectStudents);
   }
-  getById(id: number) {
-    return this.staticStudents.find( (e) => e.id === id);
+  addStudent(student: Student): void {
+    this.store$.dispatch(new AddNewStudent(student));
   }
-  staticToObservable(): Observable<StudentsArgs[]> {
-    return new Observable<StudentsArgs[]>(subscriber => {
-      subscriber.next(this.staticStudents);
-    });
-}
+  selectStudentById(id: number): Observable<Student> {
+    this.store$.dispatch(new SelectStudent(id));
+    return this.store$.select(selectStudentById);
+  }
+  deleteStudent (id: number): void {
+    this.store$.dispatch(new DeleteStudent(id));
+  }
+  updateStudent(student: Student): void {
+    this.store$.dispatch(new EditStudent(student));
+  }
 }

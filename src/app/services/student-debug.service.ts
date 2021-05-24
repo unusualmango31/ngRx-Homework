@@ -1,14 +1,12 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { Student } from "../models/student";
 import * as studentsDebugJSON from "../students-debug.json";
-import { StudentsArgs } from "./student.service";
 
 
 @Injectable()
 export class StudentDebugService {
-  students: Observable<StudentsArgs[]> = new Observable( (observer) => {
+  students: Observable<Student[]> = new Observable( (observer) => {
     observer.next(studentsDebugJSON.students);
   });
-  constructor() {
-  }
 }

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { StudentsArgs } from "../services/student.service";
+import { Student } from "../models/student";
 
 
 @Pipe({
@@ -7,7 +7,7 @@ import { StudentsArgs } from "../services/student.service";
 })
 export class FilterPipe implements PipeTransform {
 
-  transform(students: StudentsArgs[], search: string = ""): StudentsArgs[] {
+  transform(students: Student[], search: string = ""): Student[] {
     if (!search.trim() || !search) {
       return students;
     }

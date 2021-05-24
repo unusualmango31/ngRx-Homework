@@ -1,8 +1,8 @@
-import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { StudentsFormsComponent } from "./students-forms.component";
+import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import {AppRoutingModule} from '../app-routing.module';
+import { AppRoutingModule } from "../app-routing.module";
+import { StudentsFormsComponent } from "./students-forms.component";
 
 
 

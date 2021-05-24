@@ -1,18 +1,17 @@
 <h1>Angular HomeWork</h1>
 <h2>Anton Kazakov</h2>
 <hr>
-
 <div class="popup-wrapper" [style.display]="popupDisplay">
   <div class="popup">
     <div class="popup-header">
       Удаление
     </div>
     <div class="popup-message">
-      {{popupText}}
+      Удалить студента?
     </div>
     <div class="popup-buttons">
-      <button *ngIf="popupType !=='error'" appSelectedButton class="deleteButton" (click)="deleteStudent()">Удалить</button>
-      <button appSelectedButton class="cancelButton" (click)="showPopup(-1, 'cancel')">Отмена</button>
+      <button appSelectedButton class="deleteButton" (click)="deleteStudent()">Удалить</button>
+      <button appSelectedButton class="cancelButton" (click)="showPopup(-1)">Отмена</button>
     </div>
   </div>
 </div>
@@ -46,7 +45,7 @@
               <option value="3">Выше 3</option>
               <option value="4">Выше 4</option>
             </select>
-            <button appSelectedButton class="resetButton" (click)="resetStudents()">Сброс</button>
+            <button appSelectedButton class="resetButton" (click)="resetFilters()">Сброс</button>
           </div>
         </td>
         <td>
@@ -57,7 +56,7 @@
                 {{ student.birthday | slice: 6: 10 }}
               </option>
             </select>
-            <button appSelectedButton class="resetButton" (click)="resetStudents()">Сброс</button>
+            <button appSelectedButton class="resetButton" (click)="resetFilters()">Сброс</button>
           </div>
         </td>
         <td colspan="3">
@@ -69,11 +68,11 @@
       </tr>
       <tr class="columnNames">
         <td></td>
-        <td (click)="sortElement('surName')">Фамилия</td>
-        <td (click)="sortElement('name')" >Имя</td>
-        <td (click)="sortElement('middleName')" >Отчество</td>
-        <td (click)="sortElement('birthday')" >Дата рождения</td>
-        <td (click)="sortElement('averageRate')"> Средний балл </td>
+        <td>Фамилия</td>
+        <td>Имя</td>
+        <td>Отчество</td>
+        <td>Дата рождения</td>
+        <td> Средний балл </td>
         <td>Действие</td>
       </tr>
       </thead>
@@ -81,14 +80,9 @@
       <tr appSelected
           [selectStud]="student"
           (onDoubleClick)="editStudent(student.id)"
-          appSelectForDelete
-          [studentForDelete]="student"
-          [needToDelete]="isNeedToSelect"
-          (onClickStudent)="addToSelectedStudentID($event)"
-
           [style.color]="checkRate(student.averageRate)"
           [style.color]="find(student.name, student.surName)"
-          *ngFor="let student of filteredStudents | filter: nameForSearch; let i = index">
+          *ngFor="let student of students; let i = index">
         <td class="marker">&#8226;</td>
         <td>{{ student.surName }}</td>
         <td>{{ student.name }}</td>
@@ -96,17 +90,12 @@
         <td>{{ student.birthday }}</td>
         <td>{{ student.averageRate | number:"1.1-2" }}</td>
         <td>
-          <button appSelectedButton class="deleteButton" (click)="showPopup(i, 'once')">Удалить</button>
+          <button appSelectedButton class="deleteButton" (click)="showPopup(student.id)">Удалить</button>
           <button appSelectedButton class="editButton" (click)="editStudent(student.id)">Изменить</button>
         </td>
       </tr>
       </tbody>
     </table>
-    <div class="buttonsForSelect">
-      <button appSelectedButton class="selectButton" *ngIf="!isNeedToSelect" (click)="isNeedToSelect = true;">Выбрать</button>
-      <button appSelectedButton class="deleteStudentsButton" *ngIf="isNeedToSelect" (click)="showPopup(-1, 'many')"> Удалить выбранных студентов</button>
-      <button appSelectedButton class="cancelSelect" *ngIf="isNeedToSelect" (click)="clear()"> Отменить</button>
-    </div>
   </div>
 </div>
 <ng-template #loadingBlock>

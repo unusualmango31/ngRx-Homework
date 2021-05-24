@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { StudentsArgs } from "../services/student.service";
+import { Student} from "../models/student";
 
 
 @Pipe({
@@ -7,7 +7,7 @@ import { StudentsArgs } from "../services/student.service";
 })
 export class DateDontRepeatPipe implements PipeTransform {
 
-  transform(students: StudentsArgs[]): StudentsArgs[] {
+  transform(students: Student[]): Student[] {
     const resultStudents = [];
 
     for (const student of students) {

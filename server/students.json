@@ -14,7 +14,7 @@
       "name": "Алина",
       "middleName": "",
       "birthday": "23.09.1999",
-      "averageRate": 5
+      "averageRate": 4.5
     },
     {
       "id": 2,
@@ -38,7 +38,7 @@
       "name": "Максим",
       "middleName": "Сергеевич",
       "birthday": "07.01.1998",
-      "averageRate": 5
+      "averageRate": 4.3
     },
     {
       "id": 5,
@@ -54,7 +54,7 @@
       "name": "Антон",
       "middleName": "Игоревич",
       "birthday": "11.03.2000",
-      "averageRate": 5
+      "averageRate": 4
     }
   ]
 }
